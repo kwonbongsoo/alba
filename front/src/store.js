@@ -11,15 +11,29 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     l_product: '',
+    dialog:false,
+    title: 'Application'
   },
   getters: {
     l_product: function(state) {
       return state.l_product;
     },
+    dialog: function(state) {
+      return state.dialog;
+    },
+    title: function(state) {
+      return state.title;
+    },
   },
   mutations: {
     l_product: (state, l_product) => {
       state.l_product = l_product;
+    },
+    dialog: (state, dialog) => {
+      state.dialog = dialog;
+    },
+    title: (state, title) => {
+      state.title = title;
     },
   },
   actions: {
@@ -40,3 +54,5 @@ export default new Vuex.Store({
     },
   },
 })
+
+

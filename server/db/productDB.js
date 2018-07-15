@@ -15,19 +15,22 @@ module.exports = {
           successFn(result)
         }
       })
+  },
+  add(name, price, img_path, successFn, errorFn) {
+    this.connection.query(
+      'insert into product(name, price, img_path)\
+       values(?,?,?)',
+      [name, price, img_path],
+      function (error, result) {
+        if (error) {
+          errorFn(error)
+        } else {
+          successFn(result)
+        }
+      })
+  },
+  update(name, price, img_path, successFn, errorFn) {
+    
   }
-//   add(type, othername, mymno, kinds, othermno, successFn, errorFn) {
-//     this.connection.query(
-//       'insert into alert(othername, mymno, kinds, date, \
-//       confirm, type, othermno) values(?,?,?,now(),0,?,?)',
-//       [othername, mymno, kinds, type, othermno],
-//       function (error, result) {
-//         if (error) {
-//           errorFn(error)
-//         } else {
-//           successFn(result)
-//         }
-//       })
-//   },
   
 } // module

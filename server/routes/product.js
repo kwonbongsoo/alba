@@ -28,7 +28,7 @@ router.get('/list/', function(req, res, next) {
   res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
   res.setHeader("Access-Control-Max-Age", "3600")
   res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
-  res.setHeader("Access-Control-Allow-Origin", "http://192.168.25.62:8080")
+  res.setHeader("Access-Control-Allow-Origin", "*")
   
   productDB.get(function(result) {
     console.log(result);
@@ -41,5 +41,47 @@ router.get('/list/', function(req, res, next) {
      console.log(error)
   });
 });
+
+router.get('/add_proudct', function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
+  res.setHeader("Access-Control-Max-Age", "3600")
+  res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
+  res.setHeader("Access-Control-Allow-Origin", "*")
+
+  let name = req.body.name;
+  let price = req.body.price;
+  let img_path = req.body.img_path;
+
+  //s3 파일 업로드 해야함
+
+  productDB.add(name, price, img_path, (result) => {
+    res.json(result)
+  }, (error) => {
+    res.status(200)
+            .set('Content-Type', 'text/plain;charset=UTF-8')
+            .end('error')
+  })
+})
+
+router.get('/update_proudct', function(req, res, next) {
+  res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
+  res.setHeader("Access-Control-Max-Age", "3600")
+  res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
+  res.setHeader("Access-Control-Allow-Origin", "*")
+
+  let name = req.body.name;
+  let price = req.body.price;
+  let img_path = req.body.img_path;
+
+  //s3 파일 업로드 해야함
+
+  productDB.update(name, price, img_path, (result) => {
+    res.json(result)
+  }, (error) => {
+    res.status(200)
+            .set('Content-Type', 'text/plain;charset=UTF-8')
+            .end('error')
+  })
+})
 
 module.exports = router;
