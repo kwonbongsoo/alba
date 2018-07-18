@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid grid-list-md>
+  <v-container fluid grid-list-md class="product_div">
     <v-data-iterator
-      :items="items"
+      :items="l_product"
       :rows-per-page-items="rowsPerPageItems"
       :pagination.sync="pagination"
       content-tag="v-layout"
@@ -16,19 +16,19 @@
         md4
         lg3
         class="item_div"
-        @click="click_item"
       >
         <v-card>
           <v-card-title><h4>{{ props.item.name }}</h4></v-card-title>
           <v-divider></v-divider>
-          <v-layout justify-space-around class="mb-2 close_btn" @click="click_close">
+          <v-layout justify-space-around class="mb-2 close_btn" @click="click_close(props.item)">
             <span class="group pa-2">
               <v-icon medium>close</v-icon>
             </span>
           </v-layout>
-          <v-list dense>
+          <div @click="click_item(props.item)">
+            <v-list dense>
             <div class="img_box">
-              <img src="https://s3.ap-northeast-2.amazonaws.com/tdpay.s3/data/img/hb_coffee_0215.png" />
+              <img :src="props.item.img_path"/>
             </div>
             <v-list-tile>
               <v-list-tile-content>가격:</v-list-tile-content>
@@ -43,10 +43,14 @@
               <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
             </v-list-tile>
           </v-list>
+          </div>
         </v-card>
       </v-flex>
     </v-data-iterator>
-    <popup-dialog/>
+    <popup-dialog :item="s_product"/>
+    <div class="product_add_btn">
+      <v-btn color="info" @click="add_product">상품 추가</v-btn>
+    </div>
   </v-container>
 </template>
 <script>
@@ -60,88 +64,28 @@ import popupDialog from '../components/popupDialog';
       pagination: {
         rowsPerPage: 8
       },
-      items: [
-        {
-          value: false,
-          name: 'Frozen Yogurt',
-          price: 1000,
-          calcium: '14%',
-          iron: '1%'
-        },
-        {
-          value: false,
-          name: 'Ice cream sandwich',
-          price: 1100,
-          calcium: '8%',
-          iron: '1%'
-        },
-        {
-          value: false,
-          name: 'Eclair',
-          price: 1200,
-          calcium: '6%',
-          iron: '7%'
-        },
-        {
-          value: false,
-          name: 'Cupcake',
-          price: 1300,
-          calcium: '3%',
-          iron: '8%'
-        },
-        {
-          value: false,
-          name: 'Gingerbread',
-          price: 1400,
-          calcium: '7%',
-          iron: '16%'
-        },
-        {
-          value: false,
-          name: 'Jelly bean',
-          protein: 0.0,
-          price: 1500,
-          calcium: '0%',
-          iron: '0%'
-        },
-        {
-          value: false,
-          name: 'Lollipop',
-          price: 1600,
-          calcium: '0%',
-          iron: '2%'
-        },
-        {
-          value: false,
-          name: 'Honeycomb',
-          price: 1700,
-          calcium: '0%',
-          iron: '45%'
-        },
-        {
-          value: false,
-          name: 'Donut',
-          price: 1800,
-          calcium: '2%',
-          iron: '22%'
-        },
-        {
-          value: false,
-          name: 'KitKat',
-          price: 1900,
-          calcium: '12%',
-          iron: '6%'
-        }
-      ]
+      s_product: '',
     }),
+    computed: {
+      l_product() {
+        return this.$store.getters.l_product;
+      }
+    },
     mounted() {
-      this.$store.commit('title', '상품 리스트')
+      this.$store.dispatch('l_product', '');
+      this.$store.commit('title', '상품 리스트');
+      this.$store.commit('s_product', '');
     },
     methods: {
-      click_close() {
+      click_close(product) {
+        this.s_product = product;
         this.$store.commit('dialog', true)
       },
-      click_item() {
+      click_item(item) {
+        this.$store.commit('s_product', item)
+        this.$router.push('/productInfo');
+      },
+      add_product() {
         this.$router.push('/productInfo');
       }
     }
@@ -160,11 +104,20 @@ import popupDialog from '../components/popupDialog';
 }
 .item_div .close_btn {
   position: absolute;
+  z-index: inherit;
   top:0;
   right:0;
 }
 .v-card__title {
   width: 93%;
+}
+.product_div {
+  position: relative;
+}
+.product_add_btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
 }
 </style>
 

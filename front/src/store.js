@@ -12,7 +12,8 @@ export default new Vuex.Store({
   state: {
     l_product: '',
     dialog:false,
-    title: 'Application'
+    title: 'Application',
+    s_product: {},
   },
   getters: {
     l_product: function(state) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     title: function(state) {
       return state.title;
+    },
+    s_product: function(state) {
+      return state.s_product;
     },
   },
   mutations: {
@@ -35,6 +39,9 @@ export default new Vuex.Store({
     title: (state, title) => {
       state.title = title;
     },
+    s_product: (state, s_product) => {
+      state.s_product = s_product;
+    },
   },
   actions: {
     l_product: (context, params) => {
@@ -46,8 +53,49 @@ export default new Vuex.Store({
           responseType: 'json',
         })
           .then((res) => {
-            console.log('l_product res:', res.data);
             context.commit('l_product', res.data);
+            resolve(res.data);
+          });
+      });
+    },
+    add_product: (context, params) => {
+      return new Promise((resolve, reject) => {
+          axios.post( api_url + 'product/add',
+          params, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        })
+          .then((res) => {
+            resolve(res.data);
+          });
+      });
+    },
+    update_product: (context, params) => {
+      return new Promise((resolve, reject) => {
+          axios.post( api_url + 'product/update',
+          params, {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+        })
+          .then((res) => {
+            console.log('update_product res:', res.data);
+            // context.commit('l_product', res.data);
+            resolve(res.data);
+          });
+      });
+    },
+    delete_product: (context, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          params: params,
+          url: api_url + 'product/delete',
+          responseType: 'json',
+        })
+          .then((res) => {
+            // console.log('delete_product res:', res.data);
             resolve(res.data);
           });
       });

@@ -12,7 +12,7 @@
             <v-icon>dashboard</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Dashboard</v-list-tile-title>
+            <v-list-tile-title>공지사항</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
         <v-list-tile @click="dashboard_go">
@@ -20,7 +20,7 @@
             <v-icon>settings</v-icon>
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title>Product</v-list-tile-title>
+            <v-list-tile-title>휴대폰 기종</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </v-list>

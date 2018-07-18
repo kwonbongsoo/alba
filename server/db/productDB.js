@@ -16,11 +16,11 @@ module.exports = {
         }
       })
   },
-  add(name, price, img_path, successFn, errorFn) {
+  add(name, price, price1, imageName, img_path, successFn, errorFn) {
     this.connection.query(
-      'insert into product(name, price, img_path)\
-       values(?,?,?)',
-      [name, price, img_path],
+      'insert into product(name, price, price1,imageName, img_path)\
+       values(?,?,?,?,?)',
+      [name, price, price1, imageName, img_path],
       function (error, result) {
         if (error) {
           errorFn(error)
@@ -29,8 +29,29 @@ module.exports = {
         }
       })
   },
-  update(name, price, img_path, successFn, errorFn) {
-    
+  update(name, price, price1, imageName, img_path, no, successFn, errorFn) {
+    this.connection.query(
+      'update product set name = ?, price = ?, price1 = ?, imageName = ?, img_path = ? where no = ?',
+      [name, price, price1, imageName, img_path, no],
+      function (error, result) {
+        if (error) {
+          errorFn(error)
+        } else {
+          successFn(result)
+        }
+      })
+  },
+  delete(no, successFn, errorFn) {
+    this.connection.query(
+      'delete from product where no = ?',
+      [no],
+      function (error, result) {
+        if (error) {
+          errorFn(error)
+        } else {
+          successFn(result)
+        }
+      })
   }
   
 } // module

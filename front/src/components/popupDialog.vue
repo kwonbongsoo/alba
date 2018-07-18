@@ -18,7 +18,7 @@
         </v-card-title>
 
         <v-card-text>
-          정말 상품을 지우시겠습니까?
+          {{item.name}} 정말 상품을 지우시겠습니까?
         </v-card-text>
 
         <v-divider></v-divider>
@@ -34,6 +34,7 @@
 <script>
   export default {
     name: "popupDialog",
+    props: ['item'],
     data () {
       return {
         
@@ -53,6 +54,14 @@
       },
       confirm_click() {
         this.$store.commit('dialog', false)
+        let params = {
+          'orgName': this.item.imageName,
+          'no': this.item.no
+        }
+        this.$store.dispatch('delete_product', params)
+            .then(() => {
+                this.$store.dispatch('l_product', '')
+            })
       }
     }
   }

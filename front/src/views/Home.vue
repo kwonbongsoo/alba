@@ -14,7 +14,6 @@ export default {
     }
   },
   mounted() {
-    this.$store.dispatch('l_product', '');
     this.$store.commit('title', 'Application');
   },
   methods: {
