@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from './views/Home.vue'
 import Product from './views/Product.vue'
 import ProductInfo from './views/ProductInfo.vue'
+import Write from './views/Write.vue'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path: '/productInfo',
       name: 'productInfo',
       component: ProductInfo
+    },
+    {
+      path: '/write',
+      name: 'write',
+      component: Write
     }
   ]
 })

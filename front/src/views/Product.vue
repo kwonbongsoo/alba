@@ -27,22 +27,18 @@
           </v-layout>
           <div @click="click_item(props.item)">
             <v-list dense>
-            <div class="img_box">
-              <img :src="props.item.img_path"/>
-            </div>
-            <v-list-tile>
-              <v-list-tile-content>가격:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.price }}원</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>Calcium:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.calcium }}</v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile>
-              <v-list-tile-content>Iron:</v-list-tile-content>
-              <v-list-tile-content class="align-end">{{ props.item.iron }}</v-list-tile-content>
-            </v-list-tile>
-          </v-list>
+              <div class="img_box">
+                <img :src="props.item.img_path"/>
+              </div>
+              <v-list-tile>
+                <v-list-tile-content>공시지원금:</v-list-tile-content>
+                <v-list-tile-content class="align-end">{{ props.item.price }}원</v-list-tile-content>
+              </v-list-tile>
+              <v-list-tile>
+                <v-list-tile-content>선약지원금:</v-list-tile-content>
+                <v-list-tile-content class="align-end">{{ props.item.price1 }}원</v-list-tile-content>
+              </v-list-tile>
+            </v-list>
           </div>
         </v-card>
       </v-flex>
@@ -95,12 +91,16 @@ import popupDialog from '../components/popupDialog';
 .img_box {
   width: 100%;
   overflow: hidden;
+  padding: 1vw;
+  height: 200px;
+  text-align: center;
 }
 .img_box>img {
-  width: 100%;
+  width: auto;
 }
 .item_div {
   position: relative;
+  height: auto;
 }
 .item_div .close_btn {
   position: absolute;

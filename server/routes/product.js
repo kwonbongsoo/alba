@@ -1,21 +1,21 @@
-var express = require('express');
-var productDB = require('../db/productDB')
-var datasource = require('../util/datasource')
-var multiparty = require('multiparty');
-
-var connection = datasource.getConnection()
+const express = require('express');
+const productDB = require('../db/productDB')
+const datasource = require('../util/datasource')
+const multiparty = require('multiparty');
+const sharp = require('sharp');
+const connection = datasource.getConnection()
 productDB.setConnection(connection)
 
-let aws = require('aws-sdk');
+const aws = require('aws-sdk');
 aws.config.loadFromPath(__dirname + "/../config/awsconfig.json");
-let s3 = new aws.S3();
+const s3 = new aws.S3();
 
-let multer = require('multer');
-let multerS3 = require('multer-s3');
-let memorystorage = multer.memoryStorage()
-let upload = multer({ storage: memorystorage })
+const multer = require('multer');
+const multerS3 = require('multer-s3');
+const memorystorage = multer.memoryStorage()
+const upload = multer({ storage: memorystorage })
 
-var router = express.Router();
+const router = express.Router();
 
 /* GET home page. */
 router.get('/list/', function(req, res, next) {
@@ -43,17 +43,24 @@ function(req, res, next) {
   res.setHeader("Access-Control-Max-Age", "3600")
   res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
   res.setHeader("Access-Control-Allow-Origin", "*")
-
   
 
-
-  var s3_params = {
-    Bucket: 'dev.img.majesttybbong.com',
-    Key: req.file.originalname,
-  };
   
-  var s3obj = new aws.S3({ params: s3_params });
-    s3obj.upload({ Body: req.file.buffer })
+  sharp(req.file.buffer)
+  .resize(400, 200)
+  .max()
+  .toFormat(req.file.mimetype.split('/')[1])
+  .toBuffer()
+  .then(function(outputBuffer) {
+    // outputBuffer contains JPEG image data no wider than 200 pixels and no higher
+    // than 200 pixels regardless of the inputBuffer image dimensions
+    var s3_params = {
+      Bucket: 'phone.sel',
+      Key: new Date().getTime()+'.'+req.file.mimetype.split('/')[1],
+    };
+    
+    var s3obj = new aws.S3({ params: s3_params });
+    s3obj.upload({ Body: outputBuffer })
     .on('httpUploadProgress',function(progress) {
       console.log(Math.round(progress.loaded/progress.total*100)+ '% done');
       }).
@@ -65,7 +72,7 @@ function(req, res, next) {
         var name = req.body.p_name
         var price = req.body.p_price
         var price1 = req.body.p_price1
-        //어디에서나 브라우저를 통해 접근할 수 있는 파일 URL을 얻었습니다.
+        // 어디에서나 브라우저를 통해 접근할 수 있는 파일 URL을 얻었습니다.
         productDB.add(name, price, price1,imageName, img_path, (result) => {
           res.json(result)
         }, (error) => {
@@ -74,6 +81,14 @@ function(req, res, next) {
                   .end('error')
         })
       })
+  });
+
+
+
+  
+  
+  
+  // res.json('1')
 })
 
 router.post('/update',

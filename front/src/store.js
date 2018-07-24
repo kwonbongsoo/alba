@@ -11,11 +11,16 @@ export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     l_product: '',
+    l_list: '',
     dialog:false,
     title: 'Application',
-    s_product: {},
+    s_product: '',
+    s_post: '',
   },
   getters: {
+    l_list: function(state) {
+      return state.l_list;
+    },
     l_product: function(state) {
       return state.l_product;
     },
@@ -28,8 +33,14 @@ export default new Vuex.Store({
     s_product: function(state) {
       return state.s_product;
     },
+    s_post: function(state) {
+      return state.s_post;
+    },
   },
   mutations: {
+    l_list: (state, l_list) => {
+      state.l_list = l_list;
+    },
     l_product: (state, l_product) => {
       state.l_product = l_product;
     },
@@ -41,6 +52,9 @@ export default new Vuex.Store({
     },
     s_product: (state, s_product) => {
       state.s_product = s_product;
+    },
+    s_post: (state, s_post) => {
+      state.s_post = s_post;
     },
   },
   actions: {
@@ -100,6 +114,46 @@ export default new Vuex.Store({
           });
       });
     },
+    add_post: (context, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          params: params,
+          url: api_url + 'post/add',
+          responseType: 'json'
+        })
+        .then((res) => {
+          resolve(res.data);
+        })
+      })
+    },
+    update_post: (context, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'post',
+          params: params,
+          url: api_url + 'post/update',
+          responseType: 'json'
+        })
+        .then((res) => {
+          resolve(res.data);
+        })
+      })
+    },
+    get_list: (context, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          params: params,
+          url: api_url + 'post/get',
+          responseType: 'json'
+        })
+        .then((res) => {
+          context.commit('l_list', res.data);
+          resolve(res.data);
+        })
+      })
+    }
   },
 })
 

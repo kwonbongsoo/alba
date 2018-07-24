@@ -1,9 +1,9 @@
 <template>
     <div class="please_width">
         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <v-text-field dark label="휴대폰 기종" v-model="p_name" prepend-icon='edit' require></v-text-field>
-            <v-text-field dark label="공시" v-model="p_price" prepend-icon='edit' require></v-text-field>
-            <v-text-field dark label="선약" v-model="p_price1" prepend-icon='edit' require></v-text-field>
+            <v-text-field dark type="number" label="휴대폰 기종" v-model="p_name" prepend-icon='edit' require></v-text-field>
+            <v-text-field dark type="number" label="공시" v-model="p_price" prepend-icon='edit' require></v-text-field>
+            <v-text-field dark type="number" label="선약" v-model="p_price1" prepend-icon='edit' require></v-text-field>
             <img :src="imageUrl" height="150" v-if="imageUrl"/>
             <div @click='pickFile'>
                 <v-text-field dark placeholder="상품 이미지를 등록 / 변경하세요" v-model='imageName' prepend-icon='add_a_photo' readonly require></v-text-field>
