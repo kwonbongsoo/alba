@@ -30,9 +30,7 @@ router.get('/post', function(req, res, next) {
     res.setHeader('Access-Control-Allow-Credentials', true);
     // console.log(req)
 
-    let no = req.query.no
-    console.log(req.query.no)
-    appsDB.getPost(no, (result) => {
+    appsDB.getPost((result) => {
         for (var i = 0; i < result.length; i++) 
             result[i].text = result[i].text.replace(/(<([^>]+)>)/gi, '');
         res.json(result)

@@ -5,11 +5,9 @@ module.exports = {
     this.connection = conn // 변수를 알아서 만들어준다.
   },
 
-  getPost(no, successFn, errorFn) {
-    no = parseInt(no)
+  getPost(successFn, errorFn) {
     this.connection.query(
-        'select title, text, no from post limit ?, 80;',
-        [no],
+        'select title, text, no from post',
       function (error, result) {
         if (error) {
             console.log(error)

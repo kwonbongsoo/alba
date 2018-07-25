@@ -70,9 +70,7 @@
           }
           this.$store.dispatch('delete_post', params)
           .then((res) => {
-            this.$store.dispatch('get_pList', {
-              no: 0
-            })
+            this.$store.dispatch('get_pList', '')
           })
         }
       }

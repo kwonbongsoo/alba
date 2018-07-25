@@ -73,7 +73,7 @@ export default {
     let params = {
       no : this.post_no
     }
-    this.$store.dispatch('get_pList', params)
+    this.$store.dispatch('get_pList', '')
     .then((res) => {
       console.log(res)
     })

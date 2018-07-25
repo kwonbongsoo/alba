@@ -14,9 +14,7 @@ function(req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     
-    let no = req.query.no
-    console.log(req.query.no)
-    postDB.get(no, (result) => {
+    postDB.get((result) => {
         console.log(result)
         res.json(result)
     }, (error) => {
