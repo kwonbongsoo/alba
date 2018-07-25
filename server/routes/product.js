@@ -54,9 +54,10 @@ function(req, res, next) {
   .then(function(outputBuffer) {
     // outputBuffer contains JPEG image data no wider than 200 pixels and no higher
     // than 200 pixels regardless of the inputBuffer image dimensions
+    let i_name = new Date().getTime()+'.'+req.file.mimetype.split('/')[1]
     var s3_params = {
       Bucket: 'phone.sel',
-      Key: new Date().getTime()+'.'+req.file.mimetype.split('/')[1],
+      Key: i_name,
     };
     
     var s3obj = new aws.S3({ params: s3_params });
@@ -68,7 +69,7 @@ function(req, res, next) {
         //S3 File URL
         var img_path = data.Location
         console.log(img_path)
-        var imageName = req.body.imageName
+        var imageName = i_name
         var name = req.body.p_name
         var price = req.body.p_price
         var price1 = req.body.p_price1
@@ -99,44 +100,53 @@ function(req, res, next) {
   res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
   res.setHeader("Access-Control-Allow-Origin", "*")
 
-  var s3_params = {
-    Bucket: 'dev.img.majesttybbong.com',
-    Key: req.file.originalname,
-  };
-  
-  var s3obj = new aws.S3({ params: s3_params });
-    s3obj.upload({ Body: req.file.buffer })
-    .on('httpUploadProgress',function(progress) {
-      console.log(Math.round(progress.loaded/progress.total*100)+ '% done');
-      }).
-      send(function (err, data) {
-        //S3 File URL
-        var img_path = data.Location
+  sharp(req.file.buffer)
+  .resize(400, 200)
+  .max()
+  .toFormat(req.file.mimetype.split('/')[1])
+  .toBuffer()
+  .then(function(outputBuffer) {
+    let i_name = new Date().getTime()+'.'+req.file.mimetype.split('/')[1]
+    var s3_params = {
+      Bucket: 'phone.sel',
+      Key: i_name,
+    };
+    
+    var s3obj = new aws.S3({ params: s3_params });
+      s3obj.upload({ Body: outputBuffer })
+      .on('httpUploadProgress',function(progress) {
+        console.log(Math.round(progress.loaded/progress.total*100)+ '% done');
+        }).
+        send(function (err, data) {
+          //S3 File URL
+          var img_path = data.Location
 
-        var imageName = req.body.imageName
-        var name = req.body.p_name
-        var price = req.body.p_price
-        var price1 = req.body.p_price1
-        var orgName = req.body.orgName
-        var no = req.body.no
+          var imageName = i_name
+          var name = req.body.p_name
+          var price = req.body.p_price
+          var price1 = req.body.p_price1
+          var orgName = req.body.orgName
+          console.log(orgName)
+          var no = req.body.no
 
-        //어디에서나 브라우저를 통해 접근할 수 있는 파일 URL을 얻었습니다.
+          //어디에서나 브라우저를 통해 접근할 수 있는 파일 URL을 얻었습니다.
+          
+          var delete_params = {
+            Bucket: 'phone.sel',
+            Key: orgName
+          };
         
-        var delete_params = {
-          Bucket: 'dev.img.majesttybbong.com',
-          Key: orgName
-        };
-      
-        //db 삭제 처리
-      
-        var deleteObj = new aws.S3();
-        deleteObj.deleteObject(delete_params, (err, data) => {
-          productDB.update(name, price, price1, imageName, img_path, no, (result) => {
-            res.json(result)
-          }, (error) => {
-            res.status(200)
-                    .set('Content-Type', 'text/plain;charset=UTF-8')
-                    .end('error')
+          //db 삭제 처리
+        
+          var deleteObj = new aws.S3();
+          deleteObj.deleteObject(delete_params, (err, data) => {
+            productDB.update(name, price, price1, imageName, img_path, no, (result) => {
+              res.json(result)
+            }, (error) => {
+              res.status(200)
+                      .set('Content-Type', 'text/plain;charset=UTF-8')
+                      .end('error')
+            })
           })
         })
       })
@@ -149,7 +159,7 @@ router.post('/delete', function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*")
 
   var s3_params = {
-    Bucket: 'dev.img.majesttybbong.com',
+    Bucket: 'phone.sel',
     Key: req.query.orgName,
   };
 
