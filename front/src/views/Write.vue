@@ -35,10 +35,14 @@ export default {
     computed: {
         s_post() {
             return this.$store.getters.s_post;
+        },
+        is_login() {
+            return this.$store.getters.is_login;
         }
     },
     mounted() {
-        console.log()
+        if (!this.is_login)
+            this.$router.push('/login')
         this.$store.commit('title', '글쓰기');
 
         if(this.s_post != '') {

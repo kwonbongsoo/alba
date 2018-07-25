@@ -4,6 +4,7 @@ import Home from './views/Home.vue'
 import Product from './views/Product.vue'
 import ProductInfo from './views/ProductInfo.vue'
 import Write from './views/Write.vue'
+import Login from './views/Login.vue'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/write',
       name: 'write',
       component: Write
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
     }
   ]
 })

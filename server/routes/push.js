@@ -17,7 +17,7 @@ var message = new gcm.Message({
 // delayWhileIdle은 true면, device가 잠들어있는 상황에서는 메시지를 곧바로 전달하지 않고, device가 active 될 때까지 기다리고 푸시를 전달하는 설정이다. Default값은 false.
 // timeToLive는 Device가 offLine일 때 메시지를 GCM 저장소에 보관하고 있어야 하는 시간을 말한다. 단위는 (초)이며, Default값은 4주이다. data는 실제로 푸시가 전송 될 메시지 데이터를 말한다.
 
-var server_api_key ='AIzaSyDG4mabwW2cgmcBp3qVPoPfwT9DGQNqw40';
+var server_api_key ='AAAARDbOnvY:APA91bGz9-M82aGix4siK3ZE7e2EacHvgr_6nYXvV7dDNH4KUOxAWW4w4Y-NHU6fkmCXTMbxgrnweDc7Pz56BKW8ohOUSYPc14iN9zJI4loAb2x9D6B-G9dY1vhsoBtfkbvzKv2_Y5kNQWazY7p1YozwWycsDDjcbQ';
 var sender = new gcm.Sender(server_api_key);
 var registrationIds = [];
  
@@ -39,5 +39,22 @@ router.get('/', function(req, res, next) {
 // 이렇게 총 3번의 포스팅에 걸쳐 푸시기능과 apns, gcm에 대해서 알아보았습니다. 이번 포스팅을 통해서 nodejs를 이용하여 푸시기능을 구현하려고 하는 분들에게 작은 도움이 되었기를 바라겠습니다. 감사합니다.
   res.send('respond with a resource');
 });
+
+router.get('/add', function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.send('respond with a resource');
+});
+
+router.get('/delete', function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    res.send('respond with a resource');
+});
+
 
 module.exports = router;

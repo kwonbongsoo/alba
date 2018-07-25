@@ -44,9 +44,9 @@ module.exports = {
         }
       })
   },
-  delete(no, successFn, errorFn) {
+  deletePost(no, successFn, errorFn) {
     this.connection.query(
-      'delete from product where no = ?',
+      'delete from post where no = ?',
       [no],
       function (error, result) {
         if (error) {
@@ -54,7 +54,7 @@ module.exports = {
         } else {
           successFn(result)
         }
-      })
+    })
   }
   
 } // module

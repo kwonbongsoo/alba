@@ -65,9 +65,14 @@ import popupDialog from '../components/popupDialog';
     computed: {
       l_product() {
         return this.$store.getters.l_product;
+      },
+      is_login() {
+        return this.$store.getters.is_login;
       }
     },
     mounted() {
+      if (!this.is_login)
+        this.$router.push('/login')
       this.$store.dispatch('l_product', '');
       this.$store.commit('title', '상품 리스트');
       this.$store.commit('s_product', '');
@@ -75,6 +80,7 @@ import popupDialog from '../components/popupDialog';
     methods: {
       click_close(product) {
         this.s_product = product;
+        this.s_product.confirm = 'product'
         this.$store.commit('dialog', true)
       },
       click_item(item) {

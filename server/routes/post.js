@@ -61,9 +61,25 @@ function(req, res, next) {
         res.json(result)
     }, (error) => {
         res.status(200)
-                  .set('Content-Type', 'text/plain;charset=UTF-8')
-                  .end('error')
+                .set('Content-Type', 'text/plain;charset=UTF-8')
+                .end('error')
     })
 });
+
+router.get('/deletePost', function(req, res, next) {
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
+    res.setHeader("Access-Control-Max-Age", "3600")
+    res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
+    res.setHeader("Access-Control-Allow-Origin", "*")
+
+    let no = parseInt(req.query.no)
+    postDB.deletePost(no, (result) => {
+    res.json(result)
+    }, (error) => {
+    res.status(200)
+            .set('Content-Type', 'text/plain;charset=UTF-8')
+            .end('error')
+    })
+  })
 
 module.exports = router;

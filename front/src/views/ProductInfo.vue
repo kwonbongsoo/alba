@@ -39,9 +39,14 @@
     computed: {
         s_product() {
             return this.$store.getters.s_product;
+        },
+        is_login() {
+            return this.$store.getters.is_login;
         }
     },
     mounted() {
+        if (!this.is_login)
+        this.$router.push('/login')
         this.$store.commit('title', '상품 등록 / 수정')
         if(this.s_product != '') {
             this.p_name = this.s_product.name;

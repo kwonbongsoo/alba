@@ -18,7 +18,7 @@
         </v-card-title>
 
         <v-card-text>
-          {{item.name}} 정말 상품을 지우시겠습니까?
+          {{item.name}} 정말 삭제하겠습니까?
         </v-card-text>
 
         <v-divider></v-divider>
@@ -54,14 +54,27 @@
       },
       confirm_click() {
         this.$store.commit('dialog', false)
-        let params = {
-          'orgName': this.item.imageName,
-          'no': this.item.no
-        }
-        this.$store.dispatch('delete_product', params)
-            .then(() => {
-                this.$store.dispatch('l_product', '')
+        let params;
+        if(this.item.confirm == 'product') {
+            params = {
+            'orgName': this.item.imageName,
+            'no': this.item.no
+          }
+          this.$store.dispatch('delete_product', params)
+              .then((res) => {
+                  this.$store.dispatch('l_product', '')
+              })
+        } else if (this.item.confirm == 'post') {
+          params = {
+            no : this.item.no
+          }
+          this.$store.dispatch('delete_post', params)
+          .then((res) => {
+            this.$store.dispatch('get_pList', {
+              no: 0
             })
+          })
+        }
       }
     }
   }
