@@ -40,7 +40,7 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
-router.post('/add', function(req, res, next) {
+router.get('/add', function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
@@ -49,7 +49,7 @@ router.post('/add', function(req, res, next) {
     res.send('respond with a resource');
 });
 
-router.post('/delete', function(req, res, next) {
+router.get('/delete', function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
