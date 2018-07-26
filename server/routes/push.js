@@ -45,7 +45,15 @@ router.get('/add', function(req, res, next) {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
-    console.log(req)
+
+    let fcm_token = req.query.fcm_token
+    console.log(fcm_token)
+    registrationIds.push(fcm_token)
+
+    sender.send(message, registrationIds, 4, function (err, result) {
+        console.log(result);
+    });
+
     res.send('respond with a resource');
 });
 
