@@ -48,9 +48,12 @@ router.get('/add', function(req, res, next) {
 
     let fcm_token = req.query.fcm_token
     console.log(fcm_token)
-    registrationIds.push(fcm_token)
+    // registrationIds.push(fcm_token)
 
-    sender.send(message, registrationIds, 4, function (err, result) {
+    // sender.send(message, registrationIds, 4, function (err, result) {
+    //     console.log(result);
+    // });전체 푸쉬
+    sender.send(message, fcm_token, 4, function (err, result) {
         console.log(result);
     });
 
