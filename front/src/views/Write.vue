@@ -98,7 +98,10 @@ export default {
     methods: {
         submitClick() {
             if (this.title == '') {
-                alert('타이틀을 입력하세요.')
+                alert('제목을 입력하세요.')
+            }
+            else if (this.title.length > 30) {
+                alert('제목이 너무 깁니다.')
             }
             else if (this.text == '') {
                 alert('내용을 입력하세요')
@@ -112,11 +115,13 @@ export default {
                 if (this.post_no == '')
                     this.$store.dispatch('add_post', params)
                     .then((res) => {
+                        this.$store.dispatch('broadcast', '')
                         this.$router.push('/')
                     })
                 else
                     this.$store.dispatch('update_post', params)
                     .then((res) => {
+                        this.$store.dispatch('broadcast', '')
                         this.$router.push('/')
                     })
 

@@ -86,14 +86,23 @@
             if(this.p_name == '') {
                 alert('휴대폰 기종을 입력하세요');
             }
-            else if (this.price == '') {
+            else if (this.p_price == '') {
                 alert('공시지원금을 입력하세요');
             }
-            else if (this.price1 == '') {
+            else if (this.p_price1 == '') {
                 alert('선약지원금을 입력하세요');
             }
             else if (this.no == '' && this.imageName == '') {
                 alert('이미지를 등록 하세요');
+            }
+            else if (this.p_name.length > 30) {
+                alert('상품명이 너무 깁니다.')
+            }
+            else if (this.p_price1.length > 30) {
+                alert('선약지원금이 너무 크거나 깁니다.')
+            }
+            else if (this.p_price.length > 30) {
+                alert('공시지원금이 너무 크거나 깁니다.')
             }
             else {
                 let params = {
@@ -120,12 +129,14 @@
                 if (this.s_product == '')
                     this.$store.dispatch('add_product', formData)
                         .then(() => {
+                            this.$store.dispatch('broadcast', '')
                             this.$router.push('/product')
                         })
                 else
                     this.$store.dispatch('update_product', formData)
                         .then(() => {
-                                this.$router.push('/product')
+                            this.$store.dispatch('broadcast', '')
+                            this.$router.push('/product')
                         })
                 // console.log(params)
                 // console.log(this.s_product)

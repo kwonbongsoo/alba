@@ -191,7 +191,21 @@ export default new Vuex.Store({
           resolve(res.data.result)
         })
       })
-    }
+    },
+    broadcast: (context, params) => {
+      return new Promise((resolve, reject) => {
+        axios({
+          method: 'get',
+          params: params,
+          url: api_url + 'push/broadcast',
+          responseType: 'json'
+        })
+        .then((res) => {
+          console.log(res)
+          resolve(res.data.result)
+        })
+      })
+    },
   },
 })
 

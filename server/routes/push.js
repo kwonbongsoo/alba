@@ -1,15 +1,13 @@
-var express = require('express');
-var router = express.Router();
-var gcm = require('node-gcm');
+const express = require('express');
+const router = express.Router();
+const gcm = require('node-gcm');
 
-var message = new gcm.Message({  
-    collapseKey: 'demo',
-    delayWhileIdle: false,
-    timeToLive: 3,
-    data: {
-        key: 'push Test',
-    }
-});
+
+
+const pushDB = require('../db/pushDB')
+const datasource = require('../util/datasource')
+const connection = datasource.getConnection()
+pushDB.setConnection(connection)
 
 // install한 gcm 모듈을 선언하고, message라는 변수에  gcm.Message 를 초기화 합니다.
 // 이 Message라는 메서드에 전송 될 푸시에 대한 설정 정보가 json 형식으로 들어가게 됩니다.
@@ -17,9 +15,18 @@ var message = new gcm.Message({
 // delayWhileIdle은 true면, device가 잠들어있는 상황에서는 메시지를 곧바로 전달하지 않고, device가 active 될 때까지 기다리고 푸시를 전달하는 설정이다. Default값은 false.
 // timeToLive는 Device가 offLine일 때 메시지를 GCM 저장소에 보관하고 있어야 하는 시간을 말한다. 단위는 (초)이며, Default값은 4주이다. data는 실제로 푸시가 전송 될 메시지 데이터를 말한다.
 
-var server_api_key ='AAAARDbOnvY:APA91bGz9-M82aGix4siK3ZE7e2EacHvgr_6nYXvV7dDNH4KUOxAWW4w4Y-NHU6fkmCXTMbxgrnweDc7Pz56BKW8ohOUSYPc14iN9zJI4loAb2x9D6B-G9dY1vhsoBtfkbvzKv2_Y5kNQWazY7p1YozwWycsDDjcbQ';
-var sender = new gcm.Sender(server_api_key);
-var registrationIds = [];
+const server_api_key ='AAAARDbOnvY:APA91bGz9-M82aGix4siK3ZE7e2EacHvgr_6nYXvV7dDNH4KUOxAWW4w4Y-NHU6fkmCXTMbxgrnweDc7Pz56BKW8ohOUSYPc14iN9zJI4loAb2x9D6B-G9dY1vhsoBtfkbvzKv2_Y5kNQWazY7p1YozwWycsDDjcbQ';
+const sender = new gcm.Sender(server_api_key);
+const registrationIds = [];
+
+pushDB.list((result) => {
+    console.log(result)
+    for(var i = 0; i < result.length; i ++) 
+        registrationIds.push(result[i].token)
+    console.log(registrationIds)
+}, (error) => {
+    console.log(errpr)
+})
  
 // 이제 실제 푸시를 send 하기 위해서 개발자 콘솔에서 발급받은 API Key를 server_api_key에 입력합니다.  그리고 아래 token값에는 위에서 공유한 링크에서 Android 프로젝트에서 발급받은 token값을 넣어줍니다.
 
@@ -53,11 +60,31 @@ router.get('/add', function(req, res, next) {
     // sender.send(message, registrationIds, 4, function (err, result) {
     //     console.log(result);
     // });전체 푸쉬
-    sender.send(message, fcm_token, 4, function (err, result) {
-        console.log(result);
-    });
 
-    res.send('respond with a resource');
+    // sender.send(message, fcm_token, 4, function (err, result) {
+    //     console.log(result);
+    // }); 개인푸쉬
+
+    pushDB.confirm(fcm_token, (result) => {
+        // console.log(result[0].chk)
+        console.log(result.length > 0)
+        if(result.length == 0) {
+            pushDB.add(fcm_token, (result) => {
+                registrationIds.push(fcm_token)
+                console.log(registrationIds)
+                res.json(result)
+            }, (error) => {
+                res.status(200)
+                          .set('Content-Type', 'text/plain;charset=UTF-8')
+                          .end('error')
+            })
+        } else 
+            res.json('토큰 등록 성공')
+    }, (error) => {
+        res.status(200)
+                  .set('Content-Type', 'text/plain;charset=UTF-8')
+                  .end('error')
+    })
 });
 
 router.get('/delete', function(req, res, next) {
@@ -66,7 +93,28 @@ router.get('/delete', function(req, res, next) {
     res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
     res.setHeader('Access-Control-Allow-Credentials', true);
     console.log(req)
-    res.send('respond with a resource');
+    res.json('respond with a resource');
+});
+
+router.get('/broadcast', function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    let message = new gcm.Message({  
+        collapseKey: 'demo',
+        delayWhileIdle: false,
+        timeToLive: 3,
+        data: {
+            key: '새로운 공지나 상품이 등록되었습니다',
+        }
+    });
+    
+    sender.send(message, registrationIds, 4, function (err, result) {
+        res.json('SUCCESS');
+    })
+    
 });
 
 
