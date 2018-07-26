@@ -1,7 +1,7 @@
 <template>
     <div class="please_width">
         <v-flex xs12 class="text-xs-center text-sm-center text-md-center text-lg-center">
-            <v-text-field dark type="number" label="휴대폰 기종" v-model="p_name" prepend-icon='edit' require></v-text-field>
+            <v-text-field dark type="text" label="휴대폰 기종" v-model="p_name" prepend-icon='edit' require></v-text-field>
             <v-text-field dark type="number" label="공시" v-model="p_price" prepend-icon='edit' require></v-text-field>
             <v-text-field dark type="number" label="선약" v-model="p_price1" prepend-icon='edit' require></v-text-field>
             <img :src="imageUrl" height="150" v-if="imageUrl"/>
@@ -54,6 +54,7 @@
             this.p_price1 = this.s_product.price1;
             this.imageUrl = this.s_product.img_path;
             this.orgName = this.s_product.imageName;
+            this.imageName = this.s_product.imageName;
             this.no = this.s_product.no;
         }
     },
@@ -91,7 +92,7 @@
             else if (this.price1 == '') {
                 alert('선약지원금을 입력하세요');
             }
-            else if (this.imageName == '') {
+            else if (this.no == '' && this.imageName == '') {
                 alert('이미지를 등록 하세요');
             }
             else {

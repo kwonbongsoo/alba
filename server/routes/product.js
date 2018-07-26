@@ -99,8 +99,9 @@ function(req, res, next) {
   res.setHeader("Access-Control-Max-Age", "3600")
   res.setHeader("Access-Control-Allow-Headers", "x-requested-with")
   res.setHeader("Access-Control-Allow-Origin", "*")
-
-  sharp(req.file.buffer)
+  
+  if(req.file) {
+    sharp(req.file.buffer)
   .resize(400, 200)
   .max()
   .toFormat(req.file.mimetype.split('/')[1])
@@ -126,7 +127,6 @@ function(req, res, next) {
           var price = req.body.p_price
           var price1 = req.body.p_price1
           var orgName = req.body.orgName
-          console.log(orgName)
           var no = req.body.no
 
           //어디에서나 브라우저를 통해 접근할 수 있는 파일 URL을 얻었습니다.
@@ -150,6 +150,24 @@ function(req, res, next) {
           })
         })
       })
+  } else {
+    var imageName = req.body.orgName
+          var name = req.body.p_name
+          var price = req.body.p_price
+          var price1 = req.body.p_price1
+          var orgName = req.body.orgName
+          var imageUrl = req.body.imageUrl
+          console.log(req.body)
+          var no = req.body.no
+
+          productDB.update(name, price, price1, imageName, imageUrl, no, (result) => {
+            res.json(result)
+          }, (error) => {
+            res.status(200)
+                    .set('Content-Type', 'text/plain;charset=UTF-8')
+                    .end('error')
+          })
+  }
 })
 
 router.post('/delete', function(req, res, next) {

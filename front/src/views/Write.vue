@@ -6,7 +6,7 @@
     <div id="ckeditor">
         <vue-ckeditor type="classic" v-model="text" :editors="editors1"></vue-ckeditor>
     </div>
-    <input @click="submitClick" id="submit" type="submit" value="Submit">
+    <v-btn color="info" @click="submitClick" id="submit" type="submit" value="Submit">글 수정/쓰기</v-btn>
 </div>
     
     
