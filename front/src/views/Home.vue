@@ -1,5 +1,5 @@
 <template>
-<v-container class="home_div" fluid grid-list-md>
+<v-container v-if="l_pList.length > 0" class="home_div" fluid grid-list-md>
     <v-data-iterator
       :items="l_pList"
       :rows-per-page-items="rowsPerPageItems"

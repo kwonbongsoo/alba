@@ -6,13 +6,13 @@ import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
 
 const api_url ="http://52.78.60.28:3000/";
-// const api_url ="http://192.168.25.108:3000/";
+// const api_url ="http://127.0.0.1:3000/";
 
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
     l_product: '',
-    l_pList: '',
+    l_pList: [],
     dialog:false,
     title: 'Application',
     s_product: '',

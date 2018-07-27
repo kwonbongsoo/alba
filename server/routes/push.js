@@ -25,7 +25,7 @@ pushDB.list((result) => {
         registrationIds.push(result[i].token)
     console.log(registrationIds)
 }, (error) => {
-    console.log(errpr)
+    console.log(error)
 })
  
 // 이제 실제 푸시를 send 하기 위해서 개발자 콘솔에서 발급받은 API Key를 server_api_key에 입력합니다.  그리고 아래 token값에는 위에서 공유한 링크에서 Android 프로젝트에서 발급받은 token값을 넣어줍니다.

@@ -104,7 +104,11 @@
             else if (this.p_price.length > 30) {
                 alert('공시지원금이 너무 크거나 깁니다.')
             }
+            else if (this.imageFile.size > 1000000) {
+                alert('이미지 사이즈가 큽니다. 1M 이하로 업로드하세요')
+            }
             else {
+                console.log(this.imageFile.size)
                 let params = {
                     imageName: this.imageName,
                     imageUrl: this.imageUrl,
