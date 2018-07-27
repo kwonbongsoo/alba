@@ -41,7 +41,11 @@
                 alert('아이디를 입력하세요')
             } else if (this.pwd == '') {
                 alert('비밀번호를 입력하세요')
-            } else {
+            } else if (this.id.length > 30) {
+              alert('입력한 아이디가 너무 깁니다. 30글자미만')
+            } else if (this.pwd.length > 30) {
+              alert('입력한 패스워드가 너무 깁니다. 30글자미만')
+            }else {
                 let params = {
                     id : this.id,
                     pwd : this.pwd
