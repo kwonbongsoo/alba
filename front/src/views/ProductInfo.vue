@@ -133,13 +133,11 @@
                 if (this.s_product == '')
                     this.$store.dispatch('add_product', formData)
                         .then(() => {
-                            this.$store.dispatch('broadcast', '')
                             this.$router.push('/product')
                         })
                 else
                     this.$store.dispatch('update_product', formData)
                         .then(() => {
-                            this.$store.dispatch('broadcast', '')
                             this.$router.push('/product')
                         })
                 // console.log(params)

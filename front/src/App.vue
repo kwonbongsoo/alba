@@ -23,6 +23,14 @@
             <v-list-tile-title>휴대폰 기종</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile @click="broadcastClick">
+          <v-list-tile-action>
+            <v-icon>settings_input_antenna</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>푸시보내기</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
       </v-list>
     </v-navigation-drawer>
     <v-toolbar app fixed clipped-right>
@@ -57,6 +65,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
+      push: true,
     }),
     props: {
       source: String
@@ -72,6 +81,17 @@ export default {
       },
       home_go() {
         this.$router.push('/');
+      },
+      broadcastClick() {
+        if(this.push) {
+          this.push = false
+          var this_ = this
+          this.$store.dispatch('broadcast', '')
+          .then(function(res) {
+            alert('푸시를 보냈습니다.')
+            this_.push = true
+          })
+        }
       }
     }
   }

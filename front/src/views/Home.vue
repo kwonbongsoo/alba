@@ -80,7 +80,6 @@ export default {
   },
   methods: {
     postClick(post) {
-      console.log(1)
       this.$store.commit('s_post', post)
       this.$router.push('/write')
     },

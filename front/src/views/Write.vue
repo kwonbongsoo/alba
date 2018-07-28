@@ -115,13 +115,11 @@ export default {
                 if (this.post_no == '')
                     this.$store.dispatch('add_post', params)
                     .then((res) => {
-                        this.$store.dispatch('broadcast', '')
                         this.$router.push('/')
                     })
                 else
                     this.$store.dispatch('update_post', params)
                     .then((res) => {
-                        this.$store.dispatch('broadcast', '')
                         this.$router.push('/')
                     })
 
