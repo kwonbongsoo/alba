@@ -85,7 +85,7 @@ export default {
       this.$router.push('/write')
     },
     formatRemoveHtml(text) {
-      return text.replace(/(<([^>]+)>)/gi, '');
+      return text.replace(/(<([^>]+)>)/gi, '').replace(/&nbsp;/gi, '\n');
     },
     click_close(post) {
       this.s_post = post;
