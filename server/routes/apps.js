@@ -32,7 +32,7 @@ router.get('/post', function(req, res, next) {
 
     appsDB.getPost((result) => {
         for (var i = 0; i < result.length; i++) 
-            result[i].text = result[i].text.replace(/(<([^>]+)>)/gi, '').replace('&nbsp;', '\n');
+            result[i].text = result[i].text.replace(/(<([^>]+)>)/gi, '').replace(/&nbsp;/gi, '\n');
         res.json(result)
     }, (error) => {
         res.status(200)
