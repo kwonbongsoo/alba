@@ -86,8 +86,9 @@ router.get('/add', function(req, res, next) {
                       .set('Content-Type', 'text/plain;charset=UTF-8')
                       .end('error')
         })
+    } else {
+        res.json('토큰 값 없음')
     }
-    res.json('토큰 값 없음')
 });
 
 router.get('/delete', function(req, res, next) {
