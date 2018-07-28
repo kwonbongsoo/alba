@@ -17,11 +17,11 @@ module.exports = {
         }
       })
   },
-  add(title, text, successFn, errorFn) {
+  add(title, text, android_text, successFn, errorFn) {
     this.connection.query(
-      'insert into post(title, text)\
-       values(?,?)',
-      [title, text],
+      'insert into post(title, text, android_text)\
+       values(?,?,?)',
+      [title, text, android_text],
       function (error, result) {
         if (error) {
           errorFn(error)
@@ -30,10 +30,10 @@ module.exports = {
         }
       })
   },
-  update(title, text, no, successFn, errorFn) {
+  update(title, text, android_text, no, successFn, errorFn) {
     this.connection.query(
-      'update post set title = ?, text = ? where no = ?',
-      [title, text, no],
+      'update post set title = ?, text = ?, android_text = ? where no = ?',
+      [title, text, android_text, no],
       function (error, result) {
         if (error) {
           errorFn(error)

@@ -34,8 +34,9 @@ function(req, res, next) {
 
     let title = req.query.title
     let text = req.query.text
+    let android_text = req.query.text.replace(/(<([^>]+)>)/gi, '').replace(/&nbsp;/gi, '\n');
     
-    postDB.add(title, text, (result) => {
+    postDB.add(title, text, android_text, (result) => {
         res.json(result)
     }, (error) => {
         res.status(200)
@@ -53,9 +54,10 @@ function(req, res, next) {
 
     let title = req.query.title
     let text = req.query.text
+    let android_text = req.query.text.replace(/(<([^>]+)>)/gi, '').replace(/&nbsp;/gi, '\n');
     let no = parseInt(req.query.no)
     
-    postDB.update(title, text, no, (result) => {
+    postDB.update(title, text, android_text, no, (result) => {
         res.json(result)
     }, (error) => {
         res.status(200)
