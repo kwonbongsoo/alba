@@ -65,7 +65,7 @@ router.get('/add', function(req, res, next) {
     //     console.log(result);
     // }); 개인푸쉬
 
-    if(tcm_token) {
+    if(fcm_token) {
         pushDB.confirm(fcm_token, (result) => {
             // console.log(result[0].chk)
             console.log(result.length > 0)
