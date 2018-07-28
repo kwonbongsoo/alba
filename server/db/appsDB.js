@@ -7,7 +7,7 @@ module.exports = {
 
   getPost(successFn, errorFn) {
     this.connection.query(
-        'select title, text, no from post',
+        'select title, android_text as text, no from post',
       function (error, result) {
         if (error) {
             console.log(error)
