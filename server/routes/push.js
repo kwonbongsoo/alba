@@ -65,26 +65,29 @@ router.get('/add', function(req, res, next) {
     //     console.log(result);
     // }); 개인푸쉬
 
-    pushDB.confirm(fcm_token, (result) => {
-        // console.log(result[0].chk)
-        console.log(result.length > 0)
-        if(result.length == 0) {
-            pushDB.add(fcm_token, (result) => {
-                registrationIds.push(fcm_token)
-                console.log(registrationIds)
-                res.json(result)
-            }, (error) => {
-                res.status(200)
-                          .set('Content-Type', 'text/plain;charset=UTF-8')
-                          .end('error')
-            })
-        } else 
-            res.json('토큰 등록 성공')
-    }, (error) => {
-        res.status(200)
-                  .set('Content-Type', 'text/plain;charset=UTF-8')
-                  .end('error')
-    })
+    if(tcm_token) {
+        pushDB.confirm(fcm_token, (result) => {
+            // console.log(result[0].chk)
+            console.log(result.length > 0)
+            if(result.length == 0) {
+                pushDB.add(fcm_token, (result) => {
+                    registrationIds.push(fcm_token)
+                    console.log(registrationIds)
+                    res.json(result)
+                }, (error) => {
+                    res.status(200)
+                              .set('Content-Type', 'text/plain;charset=UTF-8')
+                              .end('error')
+                })
+            } else 
+                res.json('토큰 등록 성공')
+        }, (error) => {
+            res.status(200)
+                      .set('Content-Type', 'text/plain;charset=UTF-8')
+                      .end('error')
+        })
+    }
+    res.json('토큰 값 없음')
 });
 
 router.get('/delete', function(req, res, next) {
